@@ -51,4 +51,4 @@ jobs:
        ls
        echo "ls bin\Release\Publish folder"
        ls bin\Release\Publish
-       aws s3 cp bin\Release\Publish\* s3://${{ env.BUCKET_NAME }}/test
+      # aws s3 cp bin\Release\Publish\* s3://${{ env.BUCKET_NAME }}/test
