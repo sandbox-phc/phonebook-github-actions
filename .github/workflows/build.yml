@@ -25,9 +25,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
       name: Checkout Code
-    - name: 'Create release name'
-      run: |
-         Write-Host "RELEASE_NAME=${{ env.PROJECT_NAME }}-$Env:GITHUB_RUN_NUMBER"
           
     - name: Create build artifact directory
       run: |
@@ -75,8 +72,8 @@ jobs:
           
     - name:  AWS Deploy Push
       run: |
-         aws deploy push --source ${{ env.ARTIFACTROOT }}${{ env.PROJECT_NAME }} --application-name ${{ env.DEPLOYMENT_APP_NAME }} --region ${{ env.AWS_REGION }} --s3-location s3://${{ env.BUCKET_NAME }}/artifacts/${{ env.ENVI }}/${{ env.RELEASE_NAME }}.zip --ignore-hidden-files
+         aws deploy push --source ${{ env.ARTIFACTROOT }}${{ env.PROJECT_NAME }} --application-name ${{ env.DEPLOYMENT_APP_NAME }} --region ${{ env.AWS_REGION }} --s3-location s3://${{ env.BUCKET_NAME }}/artifacts/${{ env.ENVI }}/${{ env.PROJECT_NAME }}-$Env:GITHUB_RUN_NUMBER-$Env:GITHUB_SHA.zip --ignore-hidden-files
      #  aws s3 cp -r PhonebookMVC\bin\Release\Publish s3://${{ env.BUCKET_NAME }}/test
     - name: AWS DEPLOY CREATE DEPLOYMENT
       run: |
-         aws deploy create-deployment --region ${{ env.AWS_REGION }} --application-name ${{ env.DEPLOYMENT_APP_NAME  }} --deployment-config-name ${{ env.DEPLOYMENT_CONFIG_NAME }} --description build_num_${{ env.BUILD_NUMBER }} --deployment-group-name ${{ env.DEPLOYMENT_GROUP_NAME }} --s3-location  bucket=${{ env.BUCKET_NAME }},bundleType=zip,key=artifacts/${{ env.ENVI }}/${{ env.RELEASE_NAME }}.zip
+         aws deploy create-deployment --region ${{ env.AWS_REGION }} --application-name ${{ env.DEPLOYMENT_APP_NAME  }} --deployment-config-name ${{ env.DEPLOYMENT_CONFIG_NAME }} --description build_num_${{ env.BUILD_NUMBER }} --deployment-group-name ${{ env.DEPLOYMENT_GROUP_NAME }} --s3-location  bucket=${{ env.BUCKET_NAME }},bundleType=zip,key=artifacts/${{ env.ENVI }}/${{ env.PROJECT_NAME }}-$Env:GITHUB_RUN_NUMBER-$Env:GITHUB_SHA.zip
