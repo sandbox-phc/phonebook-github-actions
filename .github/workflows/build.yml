@@ -26,8 +26,8 @@ jobs:
     - uses: actions/checkout@v1
       name: Checkout Code
     - name: 'Create release name'
-      run: |-
-        echo "RELEASE_NAME=${{ env.PROJECT_NAME }}-$Env:GITHUB_RUN_NUMBER" >> ${GITHUB_ENV}
+      run: |
+         Write-Host "RELEASE_NAME=${{ env.PROJECT_NAME }}-$Env:GITHUB_RUN_NUMBER"
           
     - name: Create build artifact directory
       run: |
