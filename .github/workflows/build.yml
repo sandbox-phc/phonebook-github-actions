@@ -67,8 +67,8 @@ jobs:
     
     - name: Copy AppSec file to the artifact
       run: |
-         cp appspec.yml ${{ env.ARTIFACTROOT }}\\${{ env.PROJECT_NAME }}
-         ls ${{ env.ARTIFACTROOT }}\\${{ env.PROJECT_NAME }}
+         cp appspec.yml ${{ env.ARTIFACTROOT }}${{ env.PROJECT_NAME }}
+         ls ${{ env.ARTIFACTROOT }}${{ env.PROJECT_NAME }}
           
     - name:  AWS Deploy Push
       run: |
