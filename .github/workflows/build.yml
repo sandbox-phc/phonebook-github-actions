@@ -1,6 +1,10 @@
 name: Build Web App
  
 on: [push]
+env:
+  BUCKET_NAME : "phc-dev-github-action-deploy"
+  AWS_REGION : "us-west-2"
+  AWS_ROLE: "arn:aws:iam::856623153676:role/github-action-deploy-dev"
  
 jobs:
   build:
@@ -10,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
       name: Checkout Code
-     
+          
     - name: Setup MSBuild Path
       uses: warrenbuckley/Setup-MSBuild@v1
       env:
@@ -27,9 +31,16 @@ jobs:
  
     - name: Build and Publish Web App
       run: msbuild PhonebookMVC.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
- 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: published_webapp
-        path: bin\Release\Publish
+
+#aws-actions/configure-aws-credentials@v3 is a publically available github actions
+    - name: configure aws credentials
+            uses: aws-actions/configure-aws-credentials@v3
+##https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services      
+            with:
+              role-to-assume: ${{ env.AWS_ROLE }}
+              role-session-name: itHub-Action-Role
+              aws-region: ${{ env.AWS_REGION }}
+          # Upload a file to AWS s3
+          - name:  Copy index.html to s3
+            run: |
+              aws s3 cp bin\Release\Publish\* s3://${{ env.BUCKET_NAME }}/test
