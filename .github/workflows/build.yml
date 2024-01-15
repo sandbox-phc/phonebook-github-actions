@@ -52,3 +52,7 @@ jobs:
        echo "ls PhonebookMVC\bin\Release\Publish folder"
        ls PhonebookMVC\bin\Release\Publish
       # aws s3 cp bin\Release\Publish\* s3://${{ env.BUCKET_NAME }}/test
+      
+    - name:  Copy the artifact to S3
+      run: |
+       aws s3 cp PhonebookMVC\bin\Release\Publish\* s3://${{ env.BUCKET_NAME }}/test
