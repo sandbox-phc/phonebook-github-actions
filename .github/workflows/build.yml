@@ -2,6 +2,14 @@ name: Build Web App
  
 on: [push]
 env:
+  PROJECT_NAME: "github-cicd-demo"
+  PROJECT_SOLUTION: "PhonebookMVC.sln"
+  CONF_CONFIGURATION: "Release"
+  ARTIFACTROOT: "D:\"
+  DEPLOYMENT_APP_NAME: ""
+  DEPLOYMENT_CONFIG_NAME: ""
+  DEPLOYMENT_GROUP_NAME: ""
+  ENVI: ""
   BUCKET_NAME : "phc-dev-github-action-deploy"
   AWS_REGION : "us-west-2"
   AWS_ROLE: "arn:aws:iam::856623153676:role/github-action-deploy-dev"
@@ -18,6 +26,11 @@ jobs:
     steps:
     - uses: actions/checkout@v1
       name: Checkout Code
+      
+    - name: Create build artifact directory
+      run: |
+        md ${{ env.ARTIFACTROOT }}\${{ env.PROJECT_NAME }}\web
+        ls ${{ env.ARTIFACTROOT }}
           
     - name: Setup MSBuild Path
       uses: warrenbuckley/Setup-MSBuild@v1
@@ -31,10 +44,10 @@ jobs:
       
      
     - name: Restore NuGet Packages
-      run: nuget restore PhonebookMVC.sln
+      run: nuget restore ${{ env.PROJECT_SOLUTION }}
  
     - name: Build and Publish Web App
-      run: msbuild PhonebookMVC.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
+      run: msbuild ${{ env.PROJECT_SOLUTION }} /p:Configuration=${{ env.CONF_CONFIGURATION }} /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish  /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True  /p:publishUrl=${{ env.ARTIFACTROOT }}\${{ env.PROJECT_NAME }}\web
 
 #aws-actions/configure-aws-credentials@v3 is a publically available github actions
     - name: configure aws credentials
@@ -42,17 +55,18 @@ jobs:
 ##https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services      
       with:
           role-to-assume: ${{ env.AWS_ROLE }}
-          role-session-name: itHub-Action-Role
+          role-session-name: GitHub-Action-Role
           aws-region: ${{ env.AWS_REGION }}
           # Upload a file to AWS s3
     - name:  Display build output
       run: |
        echo "ls root folder"
-       ls
-       echo "ls PhonebookMVC\bin\Release\Publish folder"
-       ls PhonebookMVC\bin\Release\Publish
+       ls ${{ env.ARTIFACTROOT }}
+       echo "ls artifact dir"
+       ls ${{ env.ARTIFACTROOT }}\${{ env.PROJECT_NAME }}\web
       # aws s3 cp bin\Release\Publish\* s3://${{ env.BUCKET_NAME }}/test
       
     - name:  Copy the artifact to S3
       run: |
-       aws s3 cp PhonebookMVC\bin\Release\Publish\* s3://${{ env.BUCKET_NAME }}/test
+         echo "thanks"
+     #  aws s3 cp -r PhonebookMVC\bin\Release\Publish s3://${{ env.BUCKET_NAME }}/test
