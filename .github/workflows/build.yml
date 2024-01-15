@@ -47,4 +47,8 @@ jobs:
           # Upload a file to AWS s3
     - name:  Copy index.html to s3
       run: |
+       echo "ls root folder"
+       ls
+       echo "ls bin\Release\Publish folder"
+       ls bin\Release\Publish
        aws s3 cp bin\Release\Publish\* s3://${{ env.BUCKET_NAME }}/test
