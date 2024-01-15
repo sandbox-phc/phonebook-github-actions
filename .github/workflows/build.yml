@@ -5,6 +5,10 @@ env:
   BUCKET_NAME : "phc-dev-github-action-deploy"
   AWS_REGION : "us-west-2"
   AWS_ROLE: "arn:aws:iam::856623153676:role/github-action-deploy-dev"
+# Required to get the ID Token that will be used for OIDC. Ref https://www.eliasbrange.dev/posts/secure-aws-deploys-from-github-actions-with-oidc/
+permissions:
+  id-token: write
+  
  
 jobs:
   build:
