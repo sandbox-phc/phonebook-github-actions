@@ -27,8 +27,7 @@ jobs:
       name: Checkout Code
     - name: 'Create release name'
       run: |-
-        echo "RELEASE_NAME=${{ env.PROJECT_NAME }}-${GITHUB_SHA::7}-${GITHUB_RUN_NUMBER}" >> ${GITHUB_ENV}
-        echo ${{ env.RELEASE_NAME }}
+        echo "RELEASE_NAME=${{ env.PROJECT_NAME }}-$Env:GITHUB_RUN_NUMBER" >> ${GITHUB_ENV}
           
     - name: Create build artifact directory
       run: |
