@@ -1,7 +1,5 @@
 version: 0.0
 os: windows
 files:
-  - source: .
-    destination: /webapps/Config
-  - source: source
+  - source: PhonebookMVC
     destination: C:\inetpub\wwwroot
