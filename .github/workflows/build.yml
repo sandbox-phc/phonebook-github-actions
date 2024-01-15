@@ -5,7 +5,7 @@ env:
   PROJECT_NAME: "github-cicd-demo"
   PROJECT_SOLUTION: "PhonebookMVC.sln"
   CONF_CONFIGURATION: "Release"
-  ARTIFACTROOT: "D:\"
+  ARTIFACTROOT: "D:\\"
   DEPLOYMENT_APP_NAME: "null"
   DEPLOYMENT_CONFIG_NAME: "null"
   DEPLOYMENT_GROUP_NAME: "null"
