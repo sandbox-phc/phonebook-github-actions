@@ -65,7 +65,12 @@ jobs:
        echo "ls artifact dir"
        ls ${{ env.ARTIFACTROOT }}\\${{ env.PROJECT_NAME }}\\web
       # aws s3 cp bin\Release\Publish\* s3://${{ env.BUCKET_NAME }}/test
-      
+    
+    - name: Copy AppSec file to the artifact
+      run: |
+         cp appspec.yml ${{ env.ARTIFACTROOT }}\\${{ env.PROJECT_NAME }}
+         ls ${{ env.ARTIFACTROOT }}\\${{ env.PROJECT_NAME }}
+          
     - name:  AWS Deploy Push
       run: |
          aws deploy push --source ${{ env.ARTIFACTROOT }}${{ env.PROJECT_NAME }} --application-name ${{ env.DEPLOYMENT_APP_NAME }} --region ${{ env.AWS_REGION }} --s3-location s3://${{ env.ARTIFACT_S3_BUCKET }}/artifacts/${{ env.ENVI }}/${{ env.PROJECT_NAME }}/${{ env.GITHUB_RUN_NUMBER }}_${{ env.GITHUB_SHA }}.zip --ignore-hidden-files
