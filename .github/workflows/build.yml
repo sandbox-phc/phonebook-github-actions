@@ -68,7 +68,7 @@ jobs:
       
     - name:  AWS Deploy Push
       run: |
-         aws deploy push --source ${{ env.ARTIFACTROOT }}\\${{ env.PROJECT_NAME }} --application-name ${{ env.DEPLOYMENT_APP_NAME }} --region ${{ env.REGION }} --s3-location s3://${{ env.ARTIFACT_S3_BUCKET }}/artifacts/${{ env.ENVI }}/${{ env.PROJECT_NAME }}/${{ env.GITHUB_RUN_NUMBER }}_${{ env.GITHUB_SHA }}.zip --ignore-hidden-files"
+         aws deploy push --source ${{ env.ARTIFACTROOT }}\\${{ env.PROJECT_NAME }} --application-name ${{ env.DEPLOYMENT_APP_NAME }} --region ${{ env.REGION }} --s3-location s3://${{ env.ARTIFACT_S3_BUCKET }}/artifacts/${{ env.ENVI }}/${{ env.PROJECT_NAME }}/${{ env.GITHUB_RUN_NUMBER }}_${{ env.GITHUB_SHA }}.zip --ignore-hidden-files
      #  aws s3 cp -r PhonebookMVC\bin\Release\Publish s3://${{ env.BUCKET_NAME }}/test
     - name: AWS DEPLOY CREATE DEPLOYMENT
       run: |
